@@ -1,0 +1,20 @@
+*.iml
+*.ipr
+*.iws
+.idea/
+local.properties
+
+# Generic Android ignores
+bin/
+target
+gen/
+node/node_modules
+sf-gcm-demo/build
+sf-gcm-demo/google-services.json
+sf-gcm-demo/gradle
+sf-gcm-demo/app/build
+sf-gcm-demo/app/gradle
+sf-gcm-demo/app/google-services.json
+
+
+
