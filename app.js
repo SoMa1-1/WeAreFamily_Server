@@ -50,6 +50,20 @@ if (app.get('env') === 'development') {
   });
 }
 
+// post from android
+app.post('/',function(req,res){
+  res.send('latitude: ' + req.query['latitude']);
+});
+
+app.post('/',function(req,res){
+  res.send('longitude: ' + req.query['longitude']);
+});
+
+app.post('/',function(req,res){
+  res.send('altitude: ' + req.query['altitude']);
+});
+
+
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
