@@ -1,4 +1,4 @@
 {"m_duid":"test","date":{"$$date":1439789270660},"event":"1","_id":"CLchYKXTrId9852x"}
-{"m_duid":"test","date":{"$$date":1439789273585},"event":"0","_id":"XNWMuxbS10eEI9FI"}
-{"m_duid":"test","date":{"$$date":1439789275790},"event":"1","_id":"RusIN7ikUQyAd7y0"}
 {"m_duid":"test","date":{"$$date":1439789278037},"event":"0","_id":"FsD1hEzeYfBN3rvn"}
+{"m_duid":"test","date":{"$$date":1439789275790},"event":"1","_id":"RusIN7ikUQyAd7y0"}
+{"m_duid":"test","date":{"$$date":1439789273585},"event":"0","_id":"XNWMuxbS10eEI9FI"}
