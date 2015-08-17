@@ -15,6 +15,7 @@ var lock = require('./routes/lock');
 var push = require('./routes/push');
 var lifestyle = require('./routes/lifestyle');
 
+var mornitor = require('./mornitor');
 var app = express();
 
 // view engine setup
@@ -38,6 +39,8 @@ app.use('/gps', gps);
 app.use('/lock', lock);
 app.use('/push', push);
 app.use('/lifestyle', lifestyle);
+
+mornitor.timer();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

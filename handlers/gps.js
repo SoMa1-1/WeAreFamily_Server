@@ -1,7 +1,9 @@
 /** memoHandler.js **/ 
 
 var Datastore = require('nedb'); 
-var db = new Datastore({ filename: './data/gps', autoload: true });  
+var db = new Datastore({ filename: './data/gps', autoload: true }); 
+
+ exports.db = db;
 
  exports.create = function(req, res) {  
 	var body = req.body;
