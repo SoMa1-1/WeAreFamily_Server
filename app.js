@@ -15,8 +15,6 @@ var lock = require('./routes/lock');
 var push = require('./routes/push');
 var lifestyle = require('./routes/lifestyle');
 
-
-
 var app = express();
 
 // view engine setup
