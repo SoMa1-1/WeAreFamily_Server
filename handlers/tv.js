@@ -17,9 +17,20 @@ var db = new Datastore({ filename: './data/tv', autoload: true }); 
 
  exports.read = function(req, res) { 
 	var where = req.query;
-	_findTv(where, function(error, results) { 
-		res.json( {error: error, results: results});
-	});
+
+	if(where.t_duid != undefined) {
+		_insertTv(where , function(error, results) { 
+			res.json( {error: error, results: results});
+		});
+
+		setTimeout(function() {
+			db.remove({ code: where.code }); 
+		}, 1000 * 60 * 3);
+	} else {
+		_findTv(where, function(error, results) { 
+			res.json( {error: error, results: results});
+		});
+	}
 }; 
 
  exports.update = function(req, res, body) {  
@@ -39,13 +50,11 @@ var db = new Datastore({ filename: './data/tv', autoload: true }); 
 	});
 };
 
-function _insertTv(body, callback) { 
-	body = typeof body === 'string' ? JSON.parse(body) : body; 
-
+function _insertTv(where, callback) { 
 	var tv = {
-		t_duid: body.t_duid,
+		t_duid: where.t_duid,
 		ip: "172.16.101.27",
-		code: body.code,
+		code: where.code,
 		duration: "9999"
 	};
 	db.insert(tv, callback);  
