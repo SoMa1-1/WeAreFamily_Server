@@ -9,6 +9,10 @@ var db = new Datastore({ filename: './data/tv', autoload: true }); 
 	_insertTv(body , function(error, results) { 
 		res.json( {error: error, results: results});
 	});
+
+	setTimeout(function() {
+		db.remove({ code: body.code }); 
+	}, 1000 * 60 * 3);
 }; 
 
  exports.read = function(req, res) { 
