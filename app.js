@@ -40,7 +40,7 @@ app.use('/lock', lock);
 app.use('/push', push);
 app.use('/lifestyle', lifestyle);
 
-mornitor.timer();
+mornitor.mornitoring();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
