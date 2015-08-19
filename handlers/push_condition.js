@@ -1,9 +1,7 @@
 /** memoHandler.js **/ 
 
 var Datastore = require('nedb'); 
-var db = new Datastore({ filename: './data/push', autoload: true });  
-
-exports.db = db;
+var db = new Datastore({ filename: './data/push_condition', autoload: true });  
 
  exports.create = function(req, res) {  
 	var body = req.body;
@@ -40,13 +38,16 @@ exports.db = db;
 function _insertPush(body, callback) { 
 	body = typeof body === 'string' ? JSON.parse(body) : body; 
 
-	var push = {
-		t_duid: body.t_duid,
-		m_duid: body.m_duid,
-		name: body.name,
-		relation: body.relation
+	var push_condition = {
+		from: body.from,
+		to: body.to,
+		time: body.time,
+		event: body.event,
+		lat: body.lat,
+		lon: body.lon,
+		msg: body.msg
 	};
-	db.insert(push, callback);  
+	db.insert(push_condition, callback);  
 } 
  
 function _findPush(where, callback) { 

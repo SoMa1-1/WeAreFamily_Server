@@ -1,7 +1,12 @@
 /** memoHandler.js **/ 
 
 var Datastore = require('nedb'); 
+var push = require('./push');
+
 var db = new Datastore({ filename: './data/pairing', autoload: true });  
+var db_push = push.db;
+
+exports.db = db;
 
  exports.create = function(req, res) {  
 	var body = req.body;
@@ -46,7 +51,16 @@ function _insertPairing(body, callback) { 
 		name: body.name,
 		relation: body.relation
 	};
+
 	db.insert(pairing, callback);  
+
+	var push = {
+		t_duid: body.t_duid,
+		m_duid: body.m_duid,
+		name: body.name,
+		relation: body.relation
+	};
+	db_push.insert(push);  
 } 
  
 function _findPairing(where, callback) { 

@@ -14,6 +14,7 @@ var home = require('./routes/home');
 var gps = require('./routes/gps');
 var lock = require('./routes/lock');
 var push = require('./routes/push');
+var push_condition = require('./routes/push_condition');
 var lifestyle = require('./routes/lifestyle');
 
 var mornitor = require('./mornitor');
@@ -40,9 +41,10 @@ app.use('/home', home);
 app.use('/gps', gps);
 app.use('/lock', lock);
 app.use('/push', push);
+app.use('/push_condition', push_condition);
 app.use('/lifestyle', lifestyle);
 
-// mornitor.mornitoring();
+mornitor.mornitoring();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
