@@ -10,39 +10,59 @@ exports.mornitoring = function () {
 };
 
 getPushCondition = function(error, results) {
-	// isOutHome(results[0]);
-	// isInHome(results[0]);
+
+	for(var i = 0; i < results.length; i++) {
+
+		var home = new Object();
+		home["t_duid"] = results[i].t_duid;
+		home["lat"] = results[i].home_lat;
+		home["lon"] = results[i].home_lon;
+
+		var member = new Object();
+		member["m_duid"] = results[i].m_duid;
+		member["lat"] = results[i].lat;
+		member["lon"] = results[i].lon;
+		member["name"] = results[i].name;
+		member["relation"] = results[i].relation;
+
+		console.log("***** 위치 출력 *****");
+		console.log("home : " + home.lat + " " + home.lon);
+		console.log("member : " + member.lat + " " + member.lon);
+		console.log("*******************");
+		console.log("");
+
+		isOutOrInHome(home, member);
+
+	}
 }
 
-var prev = 0;
+var prev_lat = 0;
+var prev_lon = 0;
+
 //집을 나갔는지 검사.
-var isOutHome = function(home, now, m_duid){
-	if(prev == 0){
-		prev = now;
+var isOutOrInHome = function(home, member){
+
+	if(prev_lat == 0 || prev_lon == 0) {
+		prev_lat = member.lat;
+		prev_lon = member.lon;
 	}
 
-	if (prev == home){
-		if(home != now){
-			console.log("집을 나갔습니다.");
-  			// gcm.pushMessage("WAF알람", "다녀오세요~", token);
+	if ( (prev_lat == home.lat) && (prev_lon == home.lon) ){
+		if( (member.lat != home.lat) || (member.lon != home.lon) ) {
+			console.log(member.name + "님(" + member.relation + ")이 집을 나갔습니다.");
+  			gcm.pushMessage("We Are Family", member.name + "님 잘 다녀오세요~!", member.m_duid);
 		}
 	}
-	prev = now;
-}
 
-//집을 들어오는지 검사.
-var isInHome = function(home, now, m_duid){
-	if(prev == 0){
-		prev = now;
-	}
-
-	if (prev != home){
-		if(home == now){
-			console.log("집에 들어왔습니다.");
-  			// gcm.pushMessage("WAF알람", "다녀오세요~", token);
+	if ( (prev_lat != home.lat) || (prev_lon != home.lon) ){
+		if( (member.lat == home.lat) && (member.lon == home.lon) ) {
+			console.log(member.name + "님(" + member.relation + ")이 집에 들어왔습니다..");
+			gcm.pushMessage("We Are Family", member.name + "님 다녀오셨어요~!", member.m_duid);
 		}
 	}
-	prev = now;
+
+	prev_lat = member.lat;
+	prev_lon = member.lon;
 }
 
 
