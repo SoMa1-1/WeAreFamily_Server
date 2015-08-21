@@ -18,10 +18,15 @@ getPushCondition = function(error, results) {
 	cnt=0;
 
 	for(var i = 0; i < results.length; i++) {
-		if(results[i].home_lat==results[i].lat && results[i].home_lon==results[i].lon){
+		if(Math.abs(results[i].home_lat-results[i].lat)<0.0005 
+			&& Math.abs(results[i].home_lon-results[i].lon)<0.0005){
 			cnt++;
 		}
 	}
+
+	console.log("***** 집에 있는 사람 수 *****");
+	console.log("=" + cnt + "명");
+	console.log("*******************");
 
 	for(var i = 0; i < results.length; i++) {
 
@@ -48,18 +53,29 @@ getPushCondition = function(error, results) {
 	}
 }
 
+//prevLat & prevLon 배열은 m_duid 인덱스에 각각 해당 사용자의 이전의 위도, 경도 값을 갖는다.
+var prevLat = new Array();
+var prevLon = new Array();
+//다음 변수는 배열의 값을 그대로 가져와서 사용한다
 var prev_lat = 0;
 var prev_lon = 0;
+
 //집을 나갔는지 검사.
 var isOutOrInHome = function(home, member, family){
 
-	if(prev_lat == 0 || prev_lon == 0) {
-		prev_lat = member.lat;
-		prev_lon = member.lon;
+	if(prevLat[member["m_duid"]] == "undefined" || prevLon[member["m_duid"]] == "undefined") {
+		prevLat[member["m_duid"]] = member.lat;
+		prevLon[member["m_duid"]] = member.lon;
 	}
 
-	if ( (prev_lat == home.lat) && (prev_lon == home.lon) ){
-		if( (member.lat != home.lat) || (member.lon != home.lon) ) {
+	prev_lat = prevLat[member["m_duid"]];
+	prev_lon = prevLon[member["m_duid"]];
+
+	//두 값의 차의 절대값이 0.0005 이하이면 같은 값이라고 간주
+
+	//prev의 좌표가 home의 좌표와 같고, member의 좌표가 home의 좌표와 다르면 (=집에서 나갔을 경우)
+	if ( Math.abs(prev_lat-home.lat)<0.0005 && Math.abs(prev_lon-home.lon)<0.0005 ){
+		if( Math.abs(member.lat-home.lat)>=0.0005 || Math.abs(member.lon-home.lon)>=0.0005 ) {
 			console.log(member.name + "님(" + member.relation + ")이 집을 나갔습니다.");
   			gcm.pushMessage("We Are Family", member.name + "님 잘 다녀오세요~!", member.m_duid);
   			for(i=0;i<family.length;i++){
@@ -67,7 +83,6 @@ var isOutOrInHome = function(home, member, family){
   					gcm.pushMessage("We Are Family", member.name + "님이 집을 나갔습니다.", member.m_duid);
   				}
   			}
-  			cnt--;
   			if(cnt==0){
 				console.log("마지막 멤버 " + member.name + "님(" + member.relation + ")이 집을 나갔습니다.");
 	  			gcm.pushMessage("We Are Family", member.name + "님 가스불 조심하세요~!", member.m_duid);
@@ -75,21 +90,22 @@ var isOutOrInHome = function(home, member, family){
 		}
 	}
 
-	if ( (prev_lat != home.lat) || (prev_lon != home.lon) ){
-		if( (member.lat == home.lat) && (member.lon == home.lon) ) {
+	//prev의 좌표가 home의 좌표와 같고, member의 좌표가 home의 좌표와 다르면 (=집에서 나갔을 경우)
+	
+	if ( Math.abs(prev_lat-home.lat)>=0.0005 || Math.abs(prev_lon-home.lon)>=0.0005 ){
+		if( Math.abs(member.lat-home.lat)<0.0005 && Math.abs(member.lon-home.lon)<0.0005 ) {
 			console.log(member.name + "님(" + member.relation + ")이 집에 들어왔습니다..");
 			gcm.pushMessage("We Are Family", member.name + "님 다녀오셨어요~!", member.m_duid);
   			for(i=0;i<family.length;i++){
   				if(family[i].name!=member["name"]){
-  					gcm.pushMessage("We Are Family", member.name + "님이 집에 들어왔습니다.", member.m_duid);
+  					gcm.pushMessage("We Are Family", member.name + "님이 집에 들어왔습니.", member.m_duid);
   				}
   			}
-			cnt++;
 		}
 	}
 
-	prev_lat = member.lat;
-	prev_lon = member.lon;
+	prevLat[member["m_duid"]] = member.lat;
+	prevLon[member["m_duid"]] = member.lon;
 
 
 }
