@@ -9,7 +9,19 @@ exports.mornitoring = function () {
     }, 1000 * 5);  
 };
 
+var numFamily=0;
+var cnt=0;
+
 getPushCondition = function(error, results) {
+
+	numFamily = results.length;
+	cnt=0;
+
+	for(var i = 0; i < results.length; i++) {
+		if(results[i].home_lat==results[i].lat && results[i].home_lon==results[i].lon){
+			cnt++;
+		}
+	}
 
 	for(var i = 0; i < results.length; i++) {
 
@@ -31,16 +43,15 @@ getPushCondition = function(error, results) {
 		console.log("*******************");
 		console.log("");
 
-		isOutOrInHome(home, member);
+		isOutOrInHome(home, member, results);
 
 	}
 }
 
 var prev_lat = 0;
 var prev_lon = 0;
-
 //집을 나갔는지 검사.
-var isOutOrInHome = function(home, member){
+var isOutOrInHome = function(home, member, family){
 
 	if(prev_lat == 0 || prev_lon == 0) {
 		prev_lat = member.lat;
@@ -51,6 +62,16 @@ var isOutOrInHome = function(home, member){
 		if( (member.lat != home.lat) || (member.lon != home.lon) ) {
 			console.log(member.name + "님(" + member.relation + ")이 집을 나갔습니다.");
   			gcm.pushMessage("We Are Family", member.name + "님 잘 다녀오세요~!", member.m_duid);
+  			for(i=0;i<family.length;i++){
+  				if(family[i].name!=member["name"]){
+  					gcm.pushMessage("We Are Family", member.name + "님이 집을 나갔습니다.", member.m_duid);
+  				}
+  			}
+  			cnt--;
+  			if(cnt==0){
+				console.log("마지막 멤버 " + member.name + "님(" + member.relation + ")이 집을 나갔습니다.");
+	  			gcm.pushMessage("We Are Family", member.name + "님 가스불 조심하세요~!", member.m_duid);
+  			}
 		}
 	}
 
@@ -58,11 +79,19 @@ var isOutOrInHome = function(home, member){
 		if( (member.lat == home.lat) && (member.lon == home.lon) ) {
 			console.log(member.name + "님(" + member.relation + ")이 집에 들어왔습니다..");
 			gcm.pushMessage("We Are Family", member.name + "님 다녀오셨어요~!", member.m_duid);
+  			for(i=0;i<family.length;i++){
+  				if(family[i].name!=member["name"]){
+  					gcm.pushMessage("We Are Family", member.name + "님이 집에 들어왔습니다.", member.m_duid);
+  				}
+  			}
+			cnt++;
 		}
 	}
 
 	prev_lat = member.lat;
 	prev_lon = member.lon;
+
+
 }
 
 
