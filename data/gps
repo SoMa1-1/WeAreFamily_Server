@@ -11,9 +11,11 @@
 {"m_duid":"5","date":{"$$date":1439969116759},"lat":"11.11111","lon":"22.22222","_id":"JT9EGuUpTSBfLi51"}
 {"m_duid":"5","date":{"$$date":1439931284435},"lat":"11.11111","lon":"23.23232","_id":"KsFQQiCIfuqILbuu"}
 {"m_duid":"5","date":{"$$date":1439969748805},"lat":"11.11112","lon":"22.22222","_id":"KwulIts5yVB9aiQq"}
+{"m_duid":"5","date":{"$$date":1439969866328},"lat":"11.11111","lon":"22.22222","_id":"MhgCZNwHhoHE7IYP"}
 {"m_duid":"5","date":{"$$date":1439968503107},"_id":"OLqKjxcOJtbGeoQB"}
 {"m_duid":"5","date":{"$$date":1439969677917},"lat":"11.11111","lon":"22.22222","_id":"Qp2AefDe6P2bx0HF"}
 {"m_duid":"5","date":{"$$date":1439931138349},"lat":"11.11112","lon":"23.23232","_id":"W524WKbJX0woLeFF"}
+{"m_duid":"5","date":{"$$date":1439969849667},"lat":"11.11112","lon":"22.22222","_id":"XTWNvAee09zDXspr"}
 {"m_duid":"1","date":{"$$date":1439919528777},"lat":"11.11111","lon":"22.22222","_id":"XVhC6rgb2HNOjTbT"}
 {"m_duid":"5","date":{"$$date":1439930421425},"lat":"33.33333","lon":"44.44444","_id":"bMg94nPCJk5FZkrI"}
 {"m_duid":"5","date":{"$$date":1439931128075},"lat":"11.11111","lon":"23.23232","_id":"eTQV949zmGeGCFo6"}
@@ -24,5 +26,3 @@
 {"m_duid":"5","date":{"$$date":1439931033535},"lat":"12.12121","lon":"23.23232","_id":"r4XN4D5Bs9uHalHG"}
 {"m_duid":"5","date":{"$$date":1439969107681},"lat":"11.11112","lon":"22.22222","_id":"vBalkuMlCci0vGeY"}
 {"m_duid":"5","date":{"$$date":1439969759892},"lat":"11.11111","lon":"22.22222","_id":"vggYCAH9DGEzeIO3"}
-{"m_duid":"5","date":{"$$date":1439969849667},"lat":"11.11112","lon":"22.22222","_id":"XTWNvAee09zDXspr"}
-{"m_duid":"5","date":{"$$date":1439969866328},"lat":"11.11111","lon":"22.22222","_id":"MhgCZNwHhoHE7IYP"}

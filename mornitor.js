@@ -43,6 +43,7 @@ getPushCondition = function(error, results) {
 		member["relation"] = results[i].relation;
 
 		console.log("***** 위치 출력 *****");
+		console.log("name : " + member.name);
 		console.log("home : " + home.lat + " " + home.lon);
 		console.log("member : " + member.lat + " " + member.lon);
 		console.log("*******************");
@@ -77,29 +78,40 @@ var isOutOrInHome = function(home, member, family){
 	if ( Math.abs(prev_lat-home.lat)<0.0005 && Math.abs(prev_lon-home.lon)<0.0005 ){
 		if( Math.abs(member.lat-home.lat)>=0.0005 || Math.abs(member.lon-home.lon)>=0.0005 ) {
 			console.log(member.name + "님(" + member.relation + ")이 집을 나갔습니다.");
-  			gcm.pushMessage("We Are Family", member.name + "님 잘 다녀오세요~!", member.m_duid);
   			for(i=0;i<family.length;i++){
   				if(family[i].name!=member["name"]){
-  					gcm.pushMessage("We Are Family", member.name + "님이 집을 나갔습니다.", member.m_duid);
+  					gcm.pushMessage("We Are Family", member.name + "님이 집을 나갔습니다.", family[i].m_duid);
   				}
   			}
   			if(cnt==0){
 				console.log("마지막 멤버 " + member.name + "님(" + member.relation + ")이 집을 나갔습니다.");
 	  			gcm.pushMessage("We Are Family", member.name + "님 가스불 조심하세요~!", member.m_duid);
   			}
+  			else{
+  				gcm.pushMessage("We Are Family", member.name + "님 잘 다녀오세요~!", member.m_duid);
+  			}
 		}
 	}
 
-	//prev의 좌표가 home의 좌표와 같고, member의 좌표가 home의 좌표와 다르면 (=집에서 나갔을 경우)
-	
+	//prev의 좌표가 home의 좌표와 다르고, member의 좌표가 home의 좌표와 같으면 (=집에 들어왔을 경우)
 	if ( Math.abs(prev_lat-home.lat)>=0.0005 || Math.abs(prev_lon-home.lon)>=0.0005 ){
 		if( Math.abs(member.lat-home.lat)<0.0005 && Math.abs(member.lon-home.lon)<0.0005 ) {
 			console.log(member.name + "님(" + member.relation + ")이 집에 들어왔습니다..");
 			gcm.pushMessage("We Are Family", member.name + "님 다녀오셨어요~!", member.m_duid);
   			for(i=0;i<family.length;i++){
   				if(family[i].name!=member["name"]){
-  					gcm.pushMessage("We Are Family", member.name + "님이 집에 들어왔습니.", member.m_duid);
+  					gcm.pushMessage("We Are Family", member.name + "님이 집에 들어왔습니다.", family[i].m_duid);
   				}
+  			}
+  			if(cnt==numFamily-1){
+				for(i=0;i<family.length;i++) {
+					if(Math.abs(family[i].home_lat-family[i].lat)>=0.0005 
+						|| Math.abs(family[i].home_lon-family[i].lon)>=0.0005){
+						console.log(family[i].name + "님(" + family[i].relation + ")을 제외한 모든 가족이 모였습니다.");
+						gcm.pushMessage("We Are Family", family[i].name + "님, 가족들이 모두 집에 모여있네요. 집에 갈떄 치킨 한마리 어떠신가요? :D", family[i].m_duid);
+						break;
+					}
+				}
   			}
 		}
 	}
